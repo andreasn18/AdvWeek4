@@ -61,5 +61,13 @@ class StudentListFragment : Fragment() {
                 recView.visibility = View.GONE
             }
         })
+        refreshLayout.setOnRefreshListener {
+            recView.visibility = View.GONE
+            txtError.visibility = View.GONE
+            progressLoad.visibility = View.VISIBLE
+            viewModel.refresh()
+            refreshLayout.isRefreshing = false
+
+        }
     }
 }
