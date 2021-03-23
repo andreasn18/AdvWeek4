@@ -1,6 +1,7 @@
 package com.example.advweek4.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,12 @@ import com.example.advweek4.R
 import com.example.advweek4.model.Student
 import com.example.advweek4.util.loadImage
 import com.example.advweek4.viewmodel.DetailViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_student_detail.*
 import kotlinx.android.synthetic.main.fragment_student_detail.view.*
+import java.util.concurrent.TimeUnit
 
 
 class StudentDetailFragment : Fragment() {
@@ -45,6 +50,16 @@ class StudentDetailFragment : Fragment() {
             txtName.setText(student.name)
             txtBOD.setText(student.bod)
             txtPhone.setText(student.phone)
+
+            var student = it
+            btnNotif.setOnClickListener {
+                Observable.timer(5, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe{
+                        MainActivity.showNotifications(student.name.toString(), "A new notification created", R.drawable.ic_baseline_supervised_user_circle_24)
+                    }
+            }
         })
     }
 }
