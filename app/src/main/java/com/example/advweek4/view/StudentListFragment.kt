@@ -67,7 +67,6 @@ class StudentListFragment : Fragment() {
             progressLoad.visibility = View.VISIBLE
             viewModel.refresh()
             refreshLayout.isRefreshing = false
-
         }
     }
 }
