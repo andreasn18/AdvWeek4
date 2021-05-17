@@ -7,14 +7,21 @@ import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import com.example.advweek4.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-fun createNotificationChannel(context:Context, importance:Int, showBadge:Boolean, name:String, description: String){
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+fun createNotificationChannel(
+    context: Context,
+    importance: Int,
+    showBadge: Boolean,
+    name: String,
+    description: String
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channelID = "${context.packageName}-$name"
         val channel = NotificationChannel(channelID, name, importance)
         channel.description = description
@@ -25,15 +32,15 @@ fun createNotificationChannel(context:Context, importance:Int, showBadge:Boolean
     }
 }
 
-fun ImageView.loadImage(url: String?, progressBar: ProgressBar){
+fun ImageView.loadImage(url: String?, progressBar: ProgressBar?) {
     Picasso.get()
         .load(url)
-        .resize(400,400)
+        .resize(400, 400)
         .centerCrop()
         .error(R.drawable.ic_baseline_error_24)
-        .into(this, object : Callback{
+        .into(this, object : Callback {
             override fun onSuccess() {
-                progressBar.visibility = View.GONE
+                progressBar?.visibility = View.GONE
             }
 
             override fun onError(e: Exception?) {
@@ -41,7 +48,8 @@ fun ImageView.loadImage(url: String?, progressBar: ProgressBar){
             }
         })
 }
+
 @BindingAdapter("android:imageUrl", "android:progressBar")
-fun loadPhotoUrl(v:ImageView, url:String, pb: ProgressBar){
-    v.loadImage(url,pb)
+fun loadPhotoUrl(v: ImageView?, url: String?, pb: ProgressBar?) {
+    v?.loadImage(url, pb)
 }
